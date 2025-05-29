@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESP32 Firebase IoT Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Container 1: Header + Gas Type -->
+  <div id="container1" class="container">
+    <h1>ESP32 Sensor Dashboard</h1>
+    <div class="card" id="gasTypeCard"></div>
+  </div>
+
+  <!-- Container 2: Sensor Gauges -->
+  <div id="container2" class="container">
+    <div class="card" id="temperatureCard"></div>
+    <div class="card" id="humidityCard"></div>
+    <div class="card" id="mq2Card"></div>
+    <div class="card" id="mq4Card"></div>
+    <div class="card" id="mq6Card"></div>
+    <div class="card" id="vibrationCard"></div>
+  </div>
+
+  <!-- Container 3: Gas Charts -->
+  <div id="container3" class="container">
+    <div class="card">
+      <h3>MQ2 Chart</h3>
+      <select id="timeRangeMQ2">
+        <option value="live">Live</option>
+        <option value="1h">1 Hour</option>
+        <option value="1d">1 Day</option>
+        <option value="1mo">1 Month</option>
+        <option value="1y">1 Year</option>
+        <option value="max" selected>Max</option>
+      </select>
+      <button id="resetChartMQ2">Reset</button>
+      <canvas id="mq2Chart"></canvas>
+    </div>
+
+    <div class="card">
+      <h3>MQ4 Chart</h3>
+      <select id="timeRangeMQ4">
+        <option value="live">Live</option>
+        <option value="1h">1 Hour</option>
+        <option value="1d">1 Day</option>
+        <option value="1mo">1 Month</option>
+        <option value="1y">1 Year</option>
+        <option value="max" selected>Max</option>
+      </select>
+      <button id="resetChartMQ4">Reset</button>
+      <canvas id="mq4Chart"></canvas>
+    </div>
+
+    <div class="card">
+      <h3>MQ6 Chart</h3>
+      <select id="timeRangeMQ6">
+        <option value="live">Live</option>
+        <option value="1h">1 Hour</option>
+        <option value="1d">1 Day</option>
+        <option value="1mo">1 Month</option>
+        <option value="1y">1 Year</option>
+        <option value="max" selected>Max</option>
+      </select>
+      <button id="resetChartMQ6">Reset</button>
+      <canvas id="mq6Chart"></canvas>
+    </div>
+  </div>
+
+  <!-- Container 4: Location Map -->
+  <div id="container4" class="container">
+    <div class="card" id="locationCard"></div>
+  </div>
+
+  <!-- JS Modules -->
+  <script type="module" src="firebase-init.js"></script>
+  <script type="module" src="main.js"></script>
+  <script type="module" src="temperature_gauge.js"></script>
+  <script type="module" src="humidity_gauge.js"></script>
+  <script type="module" src="mq2_gauge.js"></script>
+  <script type="module" src="mq4_gauge.js"></script>
+  <script type="module" src="mq6_gauge.js"></script>
+  <script type="module" src="vibration.js"></script>
+  <script type="module" src="gas_type.js"></script>
+  <script type="module" src="location.js"></script>
+  <script type="module" src="mq2_chart.js"></script>
+  <script type="module" src="mq4_chart.js"></script>
+  <script type="module" src="mq6_chart.js"></script>
+</body>
+</html>
