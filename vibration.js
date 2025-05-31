@@ -18,8 +18,7 @@ function updateVibration(value) {
       justify-content: center;
       align-items: center;
       aspect-ratio: 1 / 1;
-      width: 100%;
-      max-width: 200px;
+      width: 70%;
       margin: auto;
     ">
       <div style="
