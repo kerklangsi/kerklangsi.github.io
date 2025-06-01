@@ -29,36 +29,24 @@ onValue(ref(db, 'mq6PPM'), snap => {
   }
 });
 
+let tempHumiData = {};
+
 onValue(ref(db, 'temperature'), snap => {
   const val = snap.val();
   if (val && val.value !== undefined && val.time !== undefined) {
-    pushToStorage('temperatureData', { value: parseFloat(val.value), time: parseInt(val.time) });
+    tempHumiData.temp = parseFloat(val.value);
+    tempHumiData.time = parseInt(val.time);
   }
 });
 
 onValue(ref(db, 'humidity'), snap => {
   const val = snap.val();
-  if (val && val.value !== undefined && val.time !== undefined) {
-    pushToStorage('humidityData', { value: parseFloat(val.value), time: parseInt(val.time) });
+  if (val && val.value !== undefined) {
+    tempHumiData.humi = parseFloat(val.value);
   }
-});
 
-onValue(ref(db, 'Vibrating'), snap => {
-  const val = snap.val();
-  pushToStorage('vibrationData', { value: val, time: Date.now() });
-});
-
-onValue(ref(db, 'gastype'), snap => {
-  const val = snap.val();
-  pushToStorage('gastypeData', { value: val, time: Date.now() });
-});
-
-onValue(ref(db, 'latitude'), snap => {
-  const val = snap.val();
-  pushToStorage('latitudeData', { value: parseFloat(val), time: Date.now() });
-});
-
-onValue(ref(db, 'longitude'), snap => {
-  const val = snap.val();
-  pushToStorage('longitudeData', { value: parseFloat(val), time: Date.now() });
+  if ('temp' in tempHumiData && 'time' in tempHumiData && 'humi' in tempHumiData) {
+    pushToStorage('tempHumiData', { ...tempHumiData });
+    tempHumiData = {}; // clear after saving
+  }
 });
