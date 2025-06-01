@@ -1,7 +1,7 @@
-// MQ4 Highcharts Chart from localStorage with dynamic time ranges
+// MQ6 Highcharts Chart from localStorage with dynamic time ranges
 
-let allDataMQ4 = JSON.parse(localStorage.getItem('mq4Data')) || [];
-let timeRangeMQ4 = '1mo';
+let allDataMQ6 = JSON.parse(localStorage.getItem('mq6Data')) || [];
+let timeRangeMQ6 = '1mo';
 
 const timeRanges = {
   live: 1 * 60 * 1000,
@@ -49,23 +49,23 @@ function aggregateData(data, interval) {
   return buckets;
 }
 
-function updateMQ4Chart() {
+function updateMQ6Chart() {
   const now = Date.now();
-  const duration = timeRanges[timeRangeMQ4];
-  const interval = intervalMap[timeRangeMQ4];
+  const duration = timeRanges[timeRangeMQ6];
+  const interval = intervalMap[timeRangeMQ6];
 
-  const filtered = allDataMQ4.filter(p => now - p.time <= duration);
+  const filtered = allDataMQ6.filter(p => now - p.time <= duration);
 
   let points;
-  if (timeRangeMQ4 === 'live') {
+  if (timeRangeMQ6 === 'live') {
     points = filtered.map(p => [p.time, p.value]);
   } else {
     points = aggregateData(filtered, interval);
   }
 
-  Highcharts.chart('mq4Chart', {
+  Highcharts.chart('mq6Chart', {
     chart: { type: 'spline' },
-    title: { text: 'MQ4 PPM Sensor Data' },
+    title: { text: 'MQ6 PPM Sensor Data' },
     xAxis: {
       type: 'datetime',
       title: { text: 'Time' }
@@ -80,21 +80,21 @@ function updateMQ4Chart() {
       valueSuffix: ' PPM'
     },
     series: [{
-      name: 'MQ4 PPM',
+      name: 'MQ6 PPM',
       data: points
     }]
   });
 }
 
-document.getElementById('timeRangeMQ4').addEventListener('change', (e) => {
-  timeRangeMQ4 = e.target.value;
-  updateMQ4Chart();
+document.getElementById('timeRangeMQ6').addEventListener('change', (e) => {
+  timeRangeMQ6 = e.target.value;
+  updateMQ6Chart();
 });
 
-document.getElementById('resetChartMQ4').addEventListener('click', () => {
-  allDataMQ4 = [];
-  localStorage.setItem('mq4Data', JSON.stringify([]));
-  updateMQ4Chart();
+document.getElementById('resetChartMQ6').addEventListener('click', () => {
+  allDataMQ6 = [];
+  localStorage.setItem('mq6Data', JSON.stringify([]));
+  updateMQ6Chart();
 });
 
-updateMQ4Chart();
+updateMQ6Chart();
