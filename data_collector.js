@@ -2,12 +2,18 @@
 import { db } from './firebase-init.js';
 import { ref, onValue } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js';
 
+function pushToStorage(key, newEntry) {
+  let existing = JSON.parse(localStorage.getItem(key)) || [];
+  existing.push(newEntry);
+  localStorage.setItem(key, JSON.stringify(existing));
+}
+
 let currentTime = null;
 
 onValue(ref(db, 'time'), snap => {
   const val = snap.val();
   if (val !== null && !isNaN(val)) {
-    currentTime = parseInt(val); // timestamp from ESP32
+    currentTime = parseInt(val);
   }
 });
 
@@ -52,4 +58,3 @@ onValue(ref(db, 'humidity'), snap => {
     tempHumiData = {};
   }
 });
-
