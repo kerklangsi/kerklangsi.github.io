@@ -6,6 +6,7 @@
   <title>ESP32PSM Web Dashboard</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
   <h1>DEVELOPMENT OF AN IOT-BASED EARLY GAS DETECTION SYSTEM BY USING MICROCONTROLLER</h1>
@@ -32,12 +33,16 @@
       <canvas id="mq2Chart"></canvas>
       <div class="controls">
         <select id="timeRangeMQ2">
-            <option value="live">Live</option>
-            <option value="1h">1 Hour</option>
-            <option value="1d">1 Day</option>
-            <option value="1mo">1 Month</option>
-            <option value="1y">1 Year</option>
-            <option value="max" selected>Max</option>
+  	  <option value="live">Live (1m)</option>
+  	  <option value="10m">Past 10 minutes</option>
+  	  <option value="30m">Past 30 minutes</option>
+  	  <option value="1h">Past 1 hour</option>
+  	  <option value="6h">Past 6 hours</option>
+  	  <option value="12h">Past 12 hours</option>
+  	  <option value="1d">Past 1 day</option>
+  	  <option value="1w">Past 1 week</option>
+  	  <option value="2w">Past 2 weeks</option>
+  	  <option value="1mo" selected>Past 1 month</option>
         </select>
         <button id="resetChartMQ2">Reset</button>
         </div>
@@ -48,12 +53,16 @@
       <canvas id="mq4Chart"></canvas>
       <div class="controls">
         <select id="timeRangeMQ4">
-          <option value="live">Live</option>
-          <option value="1h">1 Hour</option>
-          <option value="1d">1 Day</option>
-          <option value="1mo">1 Month</option>
-          <option value="1y">1 Year</option>
-          <option value="max" selected>Max</option>
+  	  <option value="live">Live (1m)</option>
+  	  <option value="10m">Past 10 minutes</option>
+  	  <option value="30m">Past 30 minutes</option>
+  	  <option value="1h">Past 1 hour</option>
+  	  <option value="6h">Past 6 hours</option>
+  	  <option value="12h">Past 12 hours</option>
+  	  <option value="1d">Past 1 day</option>
+  	  <option value="1w">Past 1 week</option>
+  	  <option value="2w">Past 2 weeks</option>
+  	  <option value="1mo" selected>Past 1 month</option>
         </select>
       <button id="resetChartMQ4">Reset</button>
       </div>
@@ -64,12 +73,16 @@
       <canvas id="mq6Chart"></canvas>
       <div class="controls">
         <select id="timeRangeMQ6">
-          <option value="live">Live</option>
-          <option value="1h">1 Hour</option>
-          <option value="1d">1 Day</option>
-          <option value="1mo">1 Month</option>
-          <option value="1y">1 Year</option>
-          <option value="max" selected>Max</option>
+  	  <option value="live">Live (1m)</option>
+  	  <option value="10m">Past 10 minutes</option>
+  	  <option value="30m">Past 30 minutes</option>
+  	  <option value="1h">Past 1 hour</option>
+  	  <option value="6h">Past 6 hours</option>
+  	  <option value="12h">Past 12 hours</option>
+  	  <option value="1d">Past 1 day</option>
+  	  <option value="1w">Past 1 week</option>
+  	  <option value="2w">Past 2 weeks</option>
+  	  <option value="1mo" selected>Past 1 month</option>
         </select>
       <button id="resetChartMQ6">Reset</button>
       </div>
@@ -80,12 +93,16 @@
       <canvas id="tempHumiChart"></canvas>
       <div class="controls">
         <select id="timeRangeTempHumi">
-          <option value="live">Live</option>
-          <option value="1h">1 Hour</option>
-          <option value="1d">1 Day</option>
-          <option value="1mo">1 Month</option>
-          <option value="1y">1 Year</option>
-          <option value="max" selected>Max</option>
+  	  <option value="live">Live (1m)</option>
+  	  <option value="10m">Past 10 minutes</option>
+  	  <option value="30m">Past 30 minutes</option>
+  	  <option value="1h">Past 1 hour</option>
+  	  <option value="6h">Past 6 hours</option>
+  	  <option value="12h">Past 12 hours</option>
+  	  <option value="1d">Past 1 day</option>
+  	  <option value="1w">Past 1 week</option>
+  	  <option value="2w">Past 2 weeks</option>
+  	  <option value="1mo" selected>Past 1 month</option>
         </select>
       <button id="resetChartTempHumi">Reset</button>
       </div>
@@ -113,7 +130,6 @@
   <script type="module" src="temp_humidity_chart.js"></script>
 </body>
 </html>
-
     BERU3764 BACHELOR DEGREE PROJECT I & II, DEVELOPMENT OF AN IOT-BASED EARLY GAS DETECTION SYSTEM BY USING MICROCONTROLLER
   </h1>
   <p>
