@@ -101,4 +101,4 @@ document.getElementById('resetChartMQ2').addEventListener('click', () => {
 setInterval(() => {
   allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
   updateMQ2Chart();
-}, 1000); // update every 1 seconds
+}, 5000); // update every 1 seconds
