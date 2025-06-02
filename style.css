@@ -134,6 +134,18 @@ canvas {
   width: 100% !important;
   height: auto;
 }
+#mq4Chart {
+  width: 100% !important;
+  height: auto;
+}
+#mq6Chart {
+  width: 100% !important;
+  height: auto;
+}
+#tempHumiChart {
+  width: 100% !important;
+  height: auto;
+}
 
 .value {
   font-weight: bold;
