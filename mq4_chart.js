@@ -50,7 +50,7 @@ function updateMQ4Chart() {
   }
 
  Highcharts.chart('mq4Chart', {
-    chart: { type: 'spline', reflow: true, spacingRight: 10 },
+    chart: { type: 'spline' },
     title: { text: 'MQ4 PPM Sensor Data' },
     xAxis: { type: 'datetime', title: { text: 'Time' }, min: timeRangeMQ4 === 'max' ? null : fromTime, max: timeRangeMQ4 === 'max' ? null : now },
     yAxis: { title: { text: 'PPM' }, min: 0, max: 1000 },
