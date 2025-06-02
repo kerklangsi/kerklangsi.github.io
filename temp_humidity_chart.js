@@ -65,7 +65,7 @@ function updateTempHumiChart() {
   if (humiPoints.length === 0) humiPoints.push([now, 0]);
 
   Highcharts.chart('tempHumiChart', {
-    chart: { type: 'spline', reflow: true, spacingRight: 10 },
+    chart: { type: 'spline' },
     title: { text: 'Temperature & Humidity' },
     xAxis: { type: 'datetime', title: { text: 'Time' }, min: fromTime, max: now },
     yAxis: { title: { text: 'Values' }, min: 0 },
