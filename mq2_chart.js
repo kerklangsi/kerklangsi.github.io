@@ -52,8 +52,9 @@ function updateMQ2Chart() {
   const now = Date.now();
   const duration = timeRanges[timeRangeMQ2];
   const interval = intervalMap[timeRangeMQ2];
+  const fromTime = now - duration;
 
-  const filtered = allDataMQ2.filter(p => now - p.time <= duration);
+  const filtered = allDataMQ2.filter(p => timeRangeMQ2 === 'max' || p.time >= fromTime);
 
   let points;
   if (timeRangeMQ2 === '1m' || timeRangeMQ2 === 'max') {
@@ -67,7 +68,9 @@ function updateMQ2Chart() {
     title: { text: 'MQ2 PPM Sensor Data' },
     xAxis: {
       type: 'datetime',
-      title: { text: 'Time' }
+      title: { text: 'Time' },
+      min: timeRangeMQ2 === 'max' ? null : fromTime,
+      max: timeRangeMQ2 === 'max' ? null : now
     },
     yAxis: {
       title: { text: 'PPM' },
