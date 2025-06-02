@@ -51,7 +51,7 @@ function updateMQ6Chart() {
   }
 
  Highcharts.chart('mq6Chart', {
-    chart: { type: 'spline', reflow: true, width: null, height: null, spacingRight: 10 },
+    chart: { type: 'spline', reflow: true, spacingRight: 10 },
     title: { text: 'MQ6 PPM Sensor Data' },
     xAxis: { type: 'datetime', title: { text: 'Time' }, min: timeRangeMQ6 === 'max' ? null : fromTime, max: timeRangeMQ6 === 'max' ? null : now },
     yAxis: { title: { text: 'PPM' }, min: 0, max: 1000 },
