@@ -115,8 +115,10 @@ document.getElementById('resetChartMQ2').addEventListener('click', () => {
 });
 
 setInterval(() => {
-  allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
-  updateMQ2Chart();
+  const raw = localStorage.getItem('mq2Data');
+  if (raw) {
+    allDataMQ2 = JSON.parse(raw);
+  }
 }, 5000);
 
 updateMQ2Chart();
