@@ -1,4 +1,4 @@
-let allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
+let allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data'));
 let timeRangeMQ2 = '1m';
 
 const timeRanges = {
@@ -69,38 +69,34 @@ function updateMQ2Chart() {
     points.push([now, 0]);
   }
 
-  Highcharts.chart('mq2Chart', {
+ const chartOptions = {
     chart: { type: 'spline' },
-    title: { text: 'MQ2 PPM Sensor Data' },
+    title: { text: 'MQ2 Sensor Chart' },
     xAxis: {
       type: 'datetime',
-      title: { text: 'Time' },
-      min: timeRangeMQ2 === 'max' ? null : fromTime,
-      max: timeRangeMQ2 === 'max' ? null : now
+      min: fromTime,
+      max: now
     },
     yAxis: {
-      title: { text: 'PPM' },
-      min: 0,
-      max: 1000
-    },
-    tooltip: {
-      xDateFormat: '%Y-%m-%d %H:%M:%S',
-      valueSuffix: ' PPM'
+      title: { text: 'PPM' }
     },
     legend: {
-      layout: 'vertical',
-      align: 'right',
-      verticalAlign: 'top',
-      floating: true,
-      borderWidth: 1,
-      backgroundColor: '#FFFFFF'
+      align: 'right', verticalAlign: 'top', layout: 'vertical', floating: true
     },
     series: [{
       name: 'MQ2 PPM',
       data: points,
-      color: '#28a745'
+      color: '#FF5733'
     }]
-  });
+  };
+
+  if (!window.mq2Chart) {
+    window.mq2Chart = Highcharts.chart('mq2Chart', chartOptions);
+  } else {
+    // Just update data and axis range
+    window.mq2Chart.series[0].setData(points, true);
+    window.mq2Chart.xAxis[0].setExtremes(fromTime, now);
+  }
 }
 
 document.getElementById('timeRangeMQ2').addEventListener('change', (e) => {
@@ -109,14 +105,15 @@ document.getElementById('timeRangeMQ2').addEventListener('change', (e) => {
 });
 
 document.getElementById('resetChartMQ2').addEventListener('click', () => {
-  allDataMQ2 = [];
-  localStorage.setItem('mq2Data', JSON.stringify([]));
+  localStorage.setItem('mq2Data', JSON.stringify(allDataMQ2));
   updateMQ2Chart();
 });
 
 setInterval(() => {
-  allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
-  updateMQ2Chart();
+  const raw = localStorage.getItem('mq2Data');
+  if (raw) {
+    allDataMQ2 = JSON.parse(raw);
+  }
 }, 5000);
 
 updateMQ2Chart();
