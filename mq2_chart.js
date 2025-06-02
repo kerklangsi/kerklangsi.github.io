@@ -2,29 +2,16 @@ let allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
 let timeRangeMQ2 = '1m';
 
 const timeRanges = {
-  '1m': 1 * 60 * 1000,
-  '10m': 10 * 60 * 1000,
-  '30m': 30 * 60 * 1000,
-  '1h': 60 * 60 * 1000,
-  '6h': 6 * 60 * 60 * 1000,
-  '12h': 12 * 60 * 60 * 1000,
-  '1d': 24 * 60 * 60 * 1000,
-  '1w': 7 * 24 * 60 * 60 * 1000,
-  '2w': 14 * 24 * 60 * 60 * 1000,
-  '1mo': 30 * 24 * 60 * 60 * 1000,
-  'max': Infinity
+  live: 1 * 60 * 1000, '10m': 10 * 60 * 1000, '30m': 30 * 60 * 1000,
+  '1h': 60 * 60 * 1000, '6h': 6 * 60 * 60 * 1000, '12h': 12 * 60 * 60 * 1000,
+  '1d': 24 * 60 * 60 * 1000, '1w': 7 * 24 * 60 * 60 * 1000,
+  '2w': 14 * 24 * 60 * 60 * 1000, '1mo': 30 * 24 * 60 * 60 * 1000
 };
 
 const intervalMap = {
-  '10m': 10 * 1000,
-  '30m': 30 * 1000,
-  '1h': 60 * 1000,
-  '6h': 5 * 60 * 1000,
-  '12h': 10 * 60 * 1000,
-  '1d': 15 * 60 * 1000,
-  '1w': 30 * 60 * 1000,
-  '2w': 60 * 60 * 1000,
-  '1mo': 2 * 60 * 60 * 1000
+  '10m': 10 * 1000, '30m': 30 * 1000, '1h': 60 * 1000,
+  '6h': 5 * 60 * 1000, '12h': 10 * 60 * 1000, '1d': 15 * 60 * 1000,
+  '1w': 30 * 60 * 1000, '2w': 60 * 60 * 1000, '1mo': 2 * 60 * 60 * 1000
 };
 
 function aggregateData(data, interval) {
@@ -72,34 +59,11 @@ function updateMQ2Chart() {
  Highcharts.chart('mq2Chart', {
     chart: { type: 'spline' },
     title: { text: 'MQ2 PPM Sensor Data' },
-    xAxis: {
-      type: 'datetime',
-      title: { text: 'Time' },
-      min: timeRangeMQ2 === 'max' ? null : fromTime,
-      max: timeRangeMQ2 === 'max' ? null : now
-    },
-    yAxis: {
-      title: { text: 'PPM' },
-      min: 0,
-      max: 1000
-    },
-    tooltip: {
-      xDateFormat: '%Y-%m-%d %H:%M:%S',
-      valueSuffix: ' PPM'
-    },
-    legend: {
-      layout: 'vertical',
-      align: 'right',
-      verticalAlign: 'top',
-      floating: true,
-      borderWidth: 1,
-      backgroundColor: '#FFFFFF'
-    },
-    series: [{
-      name: 'MQ2 PPM',
-      data: points,
-      color: '#28a745'
-    }]
+    xAxis: { type: 'datetime', title: { text: 'Time' }, min: timeRangeMQ2 === 'max' ? null : fromTime, max: timeRangeMQ2 === 'max' ? null : now },
+    yAxis: { title: { text: 'PPM' }, min: 0, max: 1000 },
+    tooltip: { xDateFormat: '%Y-%m-%d %H:%M:%S', valueSuffix: ' PPM' },
+    legend: { layout: 'vertical', align: 'right', verticalAlign: 'top', floating: true, borderWidth: 1, backgroundColor: '#FFFFFF' },
+    series: [{ name: 'MQ2 PPM', data: points, color: '#28a745' }]
   });
 }
 
