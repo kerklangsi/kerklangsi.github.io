@@ -1,5 +1,3 @@
-// mq2_chart.js
-
 let allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
 const chartMQ2 = Highcharts.chart('mq2-container', {
   chart: {
@@ -7,7 +5,7 @@ const chartMQ2 = Highcharts.chart('mq2-container', {
     zoomType: 'x'
   },
   title: {
-    text: 'MQ2 Sensor Chart'
+    text: 'MQ2 Sensor'
   },
   legend: {
     layout: 'vertical',
@@ -27,10 +25,12 @@ const chartMQ2 = Highcharts.chart('mq2-container', {
   },
   series: [{
     name: 'MQ2',
-    data: []
+    data: [],
+    color: '#28a745'
   }]
 });
 
+// Time range options
 const timeRanges = {
   '1m': 1 * 60 * 1000,
   '10m': 10 * 60 * 1000,
@@ -41,26 +41,35 @@ const timeRanges = {
   '1d': 24 * 60 * 60 * 1000,
   '1w': 7 * 24 * 60 * 60 * 1000,
   '2w': 14 * 24 * 60 * 60 * 1000,
-  '1mo': 30 * 24 * 60 * 60 * 1000,
-  max: Infinity
+  '1mo': 30 * 24 * 60 * 60 * 1000
 };
 
-let timeRangeMQ2 = 'max';
+let timeRangeMQ2 = '1m'; // Default to past 1 minute
 
 function updateMQ2Chart() {
-  const from = Date.now() - timeRanges[timeRangeMQ2];
-  const filtered = allDataMQ2.filter(d => d.time >= from);
+  let filtered = [];
+
+  if (timeRangeMQ2 === 'max') {
+    filtered = allDataMQ2;
+  } else {
+    const from = Date.now() - timeRanges[timeRangeMQ2];
+    filtered = allDataMQ2.filter(d => d.time >= from);
+  }
+
   chartMQ2.series[0].setData(filtered.map(d => [d.time, d.value]), true);
 }
 
+// Dropdown time range control
 document.getElementById('time-range-mq2').addEventListener('change', e => {
   timeRangeMQ2 = e.target.value;
   updateMQ2Chart();
 });
 
+// Auto-refresh every 5 seconds
 setInterval(() => {
   allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
   updateMQ2Chart();
 }, 5000);
 
+// Initial chart render
 updateMQ2Chart();
