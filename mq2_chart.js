@@ -1,35 +1,5 @@
 let allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
-
-const chartMQ2 = Highcharts.chart('mq2Chart', {
-  chart: {
-    type: 'spline',
-    zoomType: 'x'
-  },
-  title: {
-    text: 'MQ2 Sensor'
-  },
-  legend: {
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'top',
-    floating: true,
-    borderWidth: 1,
-    backgroundColor: '#FFFFFF'
-  },
-  xAxis: {
-    type: 'datetime'
-  },
-  yAxis: {
-    title: {
-      text: 'PPM'
-    }
-  },
-  series: [{
-    name: 'MQ2',
-    data: [],
-    color: '#28a745'
-  }]
-});
+let timeRangeMQ2 = '1m';
 
 const timeRanges = {
   '1m': 1 * 60 * 1000,
@@ -45,39 +15,95 @@ const timeRanges = {
   'max': Infinity
 };
 
-let timeRangeMQ2 = '1m';
+const intervalMap = {
+  '10m': 10 * 1000,
+  '30m': 30 * 1000,
+  '1h': 60 * 1000,
+  '6h': 5 * 60 * 1000,
+  '12h': 10 * 60 * 1000,
+  '1d': 15 * 60 * 1000,
+  '1w': 30 * 60 * 1000,
+  '2w': 60 * 60 * 1000,
+  '1mo': 2 * 60 * 60 * 1000
+};
+
+function aggregateData(data, interval) {
+  if (data.length === 0) return [];
+  const buckets = [];
+  let bucketStart = data[0].time;
+  let sum = 0, count = 0;
+
+  for (const point of data) {
+    if (point.time < bucketStart + interval) {
+      sum += point.value;
+      count++;
+    } else {
+      buckets.push([bucketStart, sum / count]);
+      bucketStart += interval * Math.floor((point.time - bucketStart) / interval);
+      sum = point.value;
+      count = 1;
+    }
+  }
+  if (count > 0) buckets.push([bucketStart, sum / count]);
+  return buckets;
+}
 
 function updateMQ2Chart() {
-  let filtered = [];
-  if (timeRangeMQ2 === 'max') {
-    filtered = allDataMQ2;
+  const now = Date.now();
+  const duration = timeRanges[timeRangeMQ2];
+  const interval = intervalMap[timeRangeMQ2];
+
+  const filtered = allDataMQ2.filter(p => now - p.time <= duration);
+
+  let points;
+  if (timeRangeMQ2 === '1m' || timeRangeMQ2 === 'max') {
+    points = filtered.map(p => [p.time, p.value]);
   } else {
-    const from = Date.now() - timeRanges[timeRangeMQ2];
-    filtered = allDataMQ2.filter(d => d.time >= from);
+    points = aggregateData(filtered, interval);
   }
-  if (chartMQ2 && chartMQ2.series[0]) {
-    chartMQ2.series[0].setData(filtered.map(d => [d.time, d.value]), true);
-  }
-}
 
-const timeSelect = document.getElementById('timeRangeMQ2');
-if (timeSelect) {
-  timeSelect.addEventListener('change', e => {
-    timeRangeMQ2 = e.target.value;
-    updateMQ2Chart();
+  Highcharts.chart('mq2Chart', {
+    chart: { type: 'spline' },
+    title: { text: 'MQ2 PPM Sensor Data' },
+    xAxis: {
+      type: 'datetime',
+      title: { text: 'Time' }
+    },
+    yAxis: {
+      title: { text: 'PPM' },
+      min: 0,
+      max: 1000
+    },
+    tooltip: {
+      xDateFormat: '%Y-%m-%d %H:%M:%S',
+      valueSuffix: ' PPM'
+    },
+    legend: {
+      layout: 'vertical',
+      align: 'right',
+      verticalAlign: 'top',
+      floating: true,
+      borderWidth: 1,
+      backgroundColor: '#FFFFFF'
+    },
+    series: [{
+      name: 'MQ2 PPM',
+      data: points,
+      color: '#28a745'
+    }]
   });
 }
 
-const resetBtn = document.getElementById('resetChartMQ2');
-if (resetBtn) {
-  resetBtn.addEventListener('click', () => {
-    localStorage.removeItem('mq2Data');
-    allDataMQ2 = [];
-    if (timeSelect) timeSelect.value = 'max';
-    timeRangeMQ2 = 'max';
-    chartMQ2.series[0].setData([], true); // clear chart
-  });
-}
+document.getElementById('timeRangeMQ2').addEventListener('change', (e) => {
+  timeRangeMQ2 = e.target.value;
+  updateMQ2Chart();
+});
+
+document.getElementById('resetChartMQ2').addEventListener('click', () => {
+  allDataMQ2 = [];
+  localStorage.setItem('mq2Data', JSON.stringify([]));
+  updateMQ2Chart();
+});
 
 setInterval(() => {
   allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
