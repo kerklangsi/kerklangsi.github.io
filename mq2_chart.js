@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', () => {
+//window.addEventListener('DOMContentLoaded', () => {
   let allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
 
   const chartMQ2 = Highcharts.chart('mq2Chart', {
@@ -71,4 +71,4 @@ window.addEventListener('DOMContentLoaded', () => {
   }, 5000);
 
   updateMQ2Chart();
-});
+//});
