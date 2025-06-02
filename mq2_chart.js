@@ -32,7 +32,7 @@ const chartMQ2 = Highcharts.chart('mq2-container', {
 });
 
 const timeRanges = {
-  live: 1 * 60 * 1000,
+  '1m': 1 * 60 * 1000,
   '10m': 10 * 60 * 1000,
   '30m': 30 * 60 * 1000,
   '1h': 60 * 60 * 1000,
@@ -45,7 +45,7 @@ const timeRanges = {
   max: Infinity
 };
 
-let timeRangeMQ2 = 'live';
+let timeRangeMQ2 = 'max';
 
 function updateMQ2Chart() {
   const from = Date.now() - timeRanges[timeRangeMQ2];
