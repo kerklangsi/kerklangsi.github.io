@@ -96,7 +96,7 @@ canvas {
 
 @media (min-width: 650px) and (max-width: 999px) {
   #container2 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
   }
 }
 
