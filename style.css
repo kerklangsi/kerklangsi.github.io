@@ -68,11 +68,10 @@ canvas {
   margin-top: 12px;
 }
 
-.chart-card .controls select,
-.chart-card .controls button {
+.chart-card .controls select, .chart-card .controls button {
   padding: 0px 20px;
   font-size: 14px;
-  min-width: 55%;
+  min-width: 65%;
 }
 
 /* GAUGE - #container2 */
