@@ -113,19 +113,27 @@ canvas {
   padding: 10px;
 }
 
-/* Force 2×2 layout for screen widths ≥649px */
-@media (min-width: 649px) {
+/* Fixed 2-column layout for 1000px and up */
+@media (min-width: 1000px) {
   #container3 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Force 4×1 stacked layout for screen widths <649px */
+/* Flexible auto-fit layout from 650px to 999px */
+@media (min-width: 650px) and (max-width: 999px) {
+  #container3 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+/* Stacked 1-column layout for under 650px */
 @media (max-width: 649px) {
   #container3 {
     grid-template-columns: 1fr;
   }
 }
+
 
 .value {
   font-weight: bold;
