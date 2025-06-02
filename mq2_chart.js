@@ -49,7 +49,7 @@ function aggregateData(data, interval) {
 }
 
 function updateMQ2Chart() {
-  const now = Date.now();
+  const now = allDataMQ2.at(-1)?.time || Date.now();
   const duration = timeRanges[timeRangeMQ2];
   const interval = intervalMap[timeRangeMQ2];
   const fromTime = now - duration;
