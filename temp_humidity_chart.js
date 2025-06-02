@@ -115,4 +115,4 @@ document.getElementById('resetChartTempHumi').addEventListener('click', () => {
 setInterval(() => {
   allData = JSON.parse(localStorage.getItem('tempHumiData')) || [];
   updateChartTempHumi();
-}, 1000); // update every 1 seconds
+}, 5000); // update every 1 seconds
