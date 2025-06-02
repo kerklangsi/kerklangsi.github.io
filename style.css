@@ -79,6 +79,8 @@ canvas {
   display: grid;
   gap: 16px;
   padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 1600px) {
@@ -110,6 +112,8 @@ canvas {
   display: grid;
   gap: 16px;
   padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Force 2×2 layout for screen widths ≥649px */
