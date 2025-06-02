@@ -71,10 +71,11 @@ if (timeSelect) {
 const resetBtn = document.getElementById('resetChartMQ2');
 if (resetBtn) {
   resetBtn.addEventListener('click', () => {
-    timeRangeMQ2 = 'max';
+    localStorage.removeItem('mq2Data');
+    allDataMQ2 = [];
     if (timeSelect) timeSelect.value = 'max';
-    chartMQ2.zoomOut();
-    updateMQ2Chart();
+    timeRangeMQ2 = 'max';
+    chartMQ2.series[0].setData([], true); // clear chart
   });
 }
 
