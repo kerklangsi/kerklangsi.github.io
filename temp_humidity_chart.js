@@ -1,118 +1,93 @@
-// Temperature & Humidity Highcharts Chart from localStorage with dynamic time ranges
-
-let allData = JSON.parse(localStorage.getItem('tempHumiData')) || [];
+let allDataTempHumi = JSON.parse(localStorage.getItem('tempHumiData')) || [];
 let timeRangeTempHumi = '1mo';
 
 const timeRanges = {
-  live: 1 * 60 * 1000,
-  '10m': 10 * 60 * 1000,
-  '30m': 30 * 60 * 1000,
-  '1h': 60 * 60 * 1000,
-  '6h': 6 * 60 * 60 * 1000,
-  '12h': 12 * 60 * 60 * 1000,
-  '1d': 24 * 60 * 60 * 1000,
-  '1w': 7 * 24 * 60 * 60 * 1000,
-  '2w': 14 * 24 * 60 * 60 * 1000,
-  '1mo': 30 * 24 * 60 * 60 * 1000
+  '1m': 1 * 60 * 1000, '10m': 10 * 60 * 1000, '30m': 30 * 60 * 1000,
+  '1h': 60 * 60 * 1000, '6h': 6 * 60 * 60 * 1000, '12h': 12 * 60 * 60 * 1000,
+  '1d': 24 * 60 * 60 * 1000, '1w': 7 * 24 * 60 * 60 * 1000,
+  '2w': 14 * 24 * 60 * 60 * 1000, '1mo': 30 * 24 * 60 * 60 * 1000,
+  'max': Infinity
 };
 
 const intervalMap = {
-  '10m': 10 * 1000,
-  '30m': 30 * 1000,
-  '1h': 60 * 1000,
-  '6h': 5 * 60 * 1000,
-  '12h': 10 * 60 * 1000,
-  '1d': 15 * 60 * 1000,
-  '1w': 30 * 60 * 1000,
-  '2w': 60 * 60 * 1000,
-  '1mo': 2 * 60 * 60 * 1000
+  '10m': 10 * 1000, '30m': 30 * 1000, '1h': 60 * 1000,
+  '6h': 5 * 60 * 1000, '12h': 10 * 60 * 1000, '1d': 15 * 60 * 1000,
+  '1w': 30 * 60 * 1000, '2w': 60 * 60 * 1000, '1mo': 2 * 60 * 60 * 1000
 };
 
-function aggregate(data, interval) {
-  if (data.length === 0) return { tempPoints: [], humiPoints: [] };
-  const tempPoints = [], humiPoints = [];
+function aggregateTempHumi(data, interval) {
+  if (!data.length) return { temp: [], humi: [] };
+  const result = { temp: [], humi: [] };
   let bucketStart = data[0].time;
-  let tSum = 0, hSum = 0, count = 0;
-
+  let tempSum = 0, humiSum = 0, count = 0;
   for (const point of data) {
     if (point.time < bucketStart + interval) {
-      tSum += point.temp;
-      hSum += point.humi;
+      tempSum += point.temp;
+      humiSum += point.humi;
       count++;
     } else {
-      tempPoints.push([bucketStart, tSum / count]);
-      humiPoints.push([bucketStart, hSum / count]);
+      result.temp.push([bucketStart, tempSum / count]);
+      result.humi.push([bucketStart, humiSum / count]);
       bucketStart += interval * Math.floor((point.time - bucketStart) / interval);
-      tSum = point.temp; hSum = point.humi; count = 1;
+      tempSum = point.temp;
+      humiSum = point.humi;
+      count = 1;
     }
   }
   if (count > 0) {
-    tempPoints.push([bucketStart, tSum / count]);
-    humiPoints.push([bucketStart, hSum / count]);
+    result.temp.push([bucketStart, tempSum / count]);
+    result.humi.push([bucketStart, humiSum / count]);
   }
-  return { tempPoints, humiPoints };
+  return result;
 }
 
-function updateChartTempHumi() {
+function updateTempHumiChart() {
   const now = Date.now();
   const duration = timeRanges[timeRangeTempHumi];
   const interval = intervalMap[timeRangeTempHumi];
+  const fromTime = now - duration;
 
-  const filtered = allData.filter(p => now - p.time <= duration);
+  const filtered = allDataTempHumi.filter(p =>
+    timeRangeTempHumi === 'max' ? true : (p.time >= fromTime && p.time <= now)
+  );
 
-  let tempPoints = [], humiPoints = [];
-  if (timeRangeTempHumi === 'live') {
+  let tempPoints, humiPoints;
+  if (['1m', '10m', '30m', 'max'].includes(timeRangeTempHumi)) {
     tempPoints = filtered.map(p => [p.time, p.temp]);
     humiPoints = filtered.map(p => [p.time, p.humi]);
   } else {
-    const result = aggregate(filtered, interval);
-    tempPoints = result.tempPoints;
-    humiPoints = result.humiPoints;
+    const aggregated = aggregateTempHumi(filtered, interval);
+    tempPoints = aggregated.temp;
+    humiPoints = aggregated.humi;
   }
+
+  if (tempPoints.length === 0) tempPoints.push([now, 0]);
+  if (humiPoints.length === 0) humiPoints.push([now, 0]);
 
   Highcharts.chart('tempHumiChart', {
     chart: { type: 'spline' },
-    title: { text: 'Temperature & Humidity Data' },
-    xAxis: {
-      type: 'datetime',
-      title: { text: 'Time' }
-    },
-    yAxis: {
-      title: { text: 'Value' },
-      min: 0,
-      max: 100
-    },
-    tooltip: {
-      shared: true,
-      xDateFormat: '%Y-%m-%d %H:%M:%S'
-    },
-    series: [
-      {
-        name: 'Temperature (°C)',
-        data: tempPoints,
-        color: 'rgba(255, 99, 132, 1)'
-      },
-      {
-        name: 'Humidity (%)',
-        data: humiPoints,
-        color: 'rgba(54, 162, 235, 1)'
-      }
+    title: { text: 'Temperature & Humidity' },
+    xAxis: { type: 'datetime', title: { text: 'Time' }, min: fromTime, max: now },
+    yAxis: { title: { text: 'Values' }, min: 0 },
+    tooltip: { xDateFormat: '%Y-%m-%d %H:%M:%S' },
+legend: { layout: 'vertical', align: 'right', verticalAlign: 'top', floating: true, borderWidth: 1, backgroundColor: '#FFFFFF' },
+    series: [ { name: 'Temperature (°C)', data: tempPoints, color: '#f5450a' }, { name: 'Humidity (%)', data: humiPoints, color: '#1e90ff' }
     ]
   });
 }
 
-document.getElementById('timeRangeTempHumi').addEventListener('change', (e) => {
+document.getElementById('timeRangeTempHumi').addEventListener('change', e => {
   timeRangeTempHumi = e.target.value;
-  updateChartTempHumi();
+  updateTempHumiChart();
 });
 
 document.getElementById('resetChartTempHumi').addEventListener('click', () => {
-  allData = [];
+  allDataTempHumi = [];
   localStorage.setItem('tempHumiData', JSON.stringify([]));
-  updateChartTempHumi();
+  updateTempHumiChart();
 });
 
 setInterval(() => {
-  allData = JSON.parse(localStorage.getItem('tempHumiData')) || [];
-  updateChartTempHumi();
-}, 5000); // update every 1 seconds
+  allDataTempHumi = JSON.parse(localStorage.getItem('tempHumiData')) || [];
+  updateTempHumiChart();
+}, 5000);
