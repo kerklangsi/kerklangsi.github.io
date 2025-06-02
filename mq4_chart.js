@@ -49,19 +49,16 @@ function updateMQ4Chart() {
     points = aggregateData(filtered, interval);
   }
 
-  if (!window.mq4Chart) {
-    window.mq4Chart = Highcharts.chart('mq4Chart', {
-      chart: { type: 'spline' },
-      title: { text: 'MQ4 PPM Sensor Data' },
-      xAxis: { type: 'datetime', title: { text: 'Time' } },
-      yAxis: { title: { text: 'PPM' }, min: 0, max: 1000 },
-      tooltip: { xDateFormat: '%Y-%m-%d %H:%M:%S', valueSuffix: ' PPM' },
-      series: [{ name: 'MQ4 PPM', data: points }]
-    });
-  } else {
-    window.mq4Chart.series[0].setData(points, true);
-    window.mq4Chart.xAxis[0].setExtremes(fromTime, now);
-  }
+ Highcharts.chart('mq4Chart', {
+    chart: { type: 'spline' },
+    title: { text: 'MQ4 PPM Sensor Data' },
+    xAxis: { type: 'datetime', title: { text: 'Time' }, min: timeRangeMQ4 === 'max' ? null : fromTime, max: timeRangeMQ4 === 'max' ? null : now },
+    yAxis: { title: { text: 'PPM' }, min: 0, max: 1000 },
+    tooltip: { xDateFormat: '%Y-%m-%d %H:%M:%S', valueSuffix: ' PPM' },
+    legend: { layout: 'vertical', align: 'right', verticalAlign: 'top', floating: true, borderWidth: 1, backgroundColor: '#FFFFFF' },
+    series: [{ name: 'MQ4 PPM', data: points, color: '#e60909' }]
+  });
+}
 }
 
 document.getElementById('timeRangeMQ4').addEventListener('change', e => {
