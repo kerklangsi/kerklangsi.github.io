@@ -130,6 +130,11 @@ canvas {
   }
 }
 
+#mq2Chart {
+  width: 100% !important;
+  height: auto;
+}
+
 .value {
   font-weight: bold;
 }
