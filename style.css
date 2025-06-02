@@ -72,7 +72,7 @@ canvas {
 .chart-card .controls button {
   padding: 0px 20px;
   font-size: 14px;
-  min-width: 200px;
+  min-width: 55%;
 }
 
 /* GAUGE - #container2 */
@@ -106,34 +106,33 @@ canvas {
   }
 }
 
-/* CHART - #container3 */
+/* Base styles */
 #container3 {
   display: grid;
   gap: 16px;
   padding: 10px;
 }
 
-/* Fixed 2-column layout for 1000px and up */
+/* (1) ≥1000px: Fixed 2 columns */
 @media (min-width: 1000px) {
   #container3 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Flexible auto-fit layout from 650px to 999px */
+/* (2) 650px–999px: Also 2 columns, stretch to 100% */
 @media (min-width: 650px) and (max-width: 999px) {
   #container3 {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-/* Stacked 1-column layout for under 650px */
+/* (3) <650px: Stacked 1 column */
 @media (max-width: 649px) {
   #container3 {
     grid-template-columns: 1fr;
   }
 }
-
 
 .value {
   font-weight: bold;
