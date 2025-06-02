@@ -112,15 +112,15 @@ canvas {
   padding: 10px;
 }
 
-/* Force 2×2 layout for screen widths ≥900px */
-@media (min-width: 900px) {
+/* Force 2×2 layout for screen widths ≥649px */
+@media (min-width: 649px) {
   #container3 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Force 4×1 stacked layout for screen widths <900px */
-@media (max-width: 900px) {
+/* Force 4×1 stacked layout for screen widths <649px */
+@media (max-width: 649px) {
   #container3 {
     grid-template-columns: 1fr;
   }
