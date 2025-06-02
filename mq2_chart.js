@@ -58,7 +58,7 @@ function updateMQ2Chart() {
   }
 
  Highcharts.chart('mq2Chart', {
-    chart: { type: 'spline', reflow: true, width: null, height: null, spacingRight: 10 }
+    chart: { type: 'spline', reflow: true, width: null, height: null, spacingRight: 10 },
     title: { text: 'MQ2 PPM Sensor Data' },
     xAxis: { type: 'datetime', title: { text: 'Time' }, min: timeRangeMQ2 === 'max' ? null : fromTime, max: timeRangeMQ2 === 'max' ? null : now },
     yAxis: { title: { text: 'PPM' }, min: 0, max: 1000 },
