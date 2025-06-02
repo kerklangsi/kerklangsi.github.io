@@ -19,7 +19,7 @@ onValue(ref(db, 'time'), snap => {
 
 function pushWithTime(key, value) {
   if (currentTime !== null) {
-    pushToStorage(key, { value: parseFloat(value), time: currentTime * 1000 });
+    pushToStorage(key, { value: parseFloat(value), time: currentTime });
   }
 }
 
@@ -54,7 +54,7 @@ onValue(ref(db, 'humidity'), snap => {
   }
 
   if ('temp' in tempHumiData && 'humi' in tempHumiData && currentTime !== null) {
-    pushToStorage('tempHumiData', { ...tempHumiData, time: currentTime * 1000 });
+    pushToStorage('tempHumiData', { ...tempHumiData, time: currentTime });
     tempHumiData = {};
   }
 });
