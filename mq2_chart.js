@@ -54,13 +54,19 @@ function updateMQ2Chart() {
   const interval = intervalMap[timeRangeMQ2];
   const fromTime = now - duration;
 
-  const filtered = allDataMQ2.filter(p => timeRangeMQ2 === 'max' || p.time >= fromTime);
+  const filtered = allDataMQ2
+    .filter(p => timeRangeMQ2 === 'max' || (p.time >= fromTime && p.time <= now));
 
   let points;
   if (timeRangeMQ2 === '1m' || timeRangeMQ2 === 'max') {
     points = filtered.map(p => [p.time, p.value]);
   } else {
     points = aggregateData(filtered, interval);
+  }
+
+  // 🔒 Prevent crash if chart gets no points
+  if (points.length === 0) {
+    points.push([now, 0]);
   }
 
   Highcharts.chart('mq2Chart', {
