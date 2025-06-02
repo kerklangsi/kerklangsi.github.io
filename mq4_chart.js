@@ -97,4 +97,7 @@ document.getElementById('resetChartMQ4').addEventListener('click', () => {
   updateMQ4Chart();
 });
 
-updateMQ4Chart();
+setInterval(() => {
+  allDataMQ4 = JSON.parse(localStorage.getItem('mq4Data')) || [];
+  updateMQ4Chart();
+}, 1000); // update every 5 seconds
