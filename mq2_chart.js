@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
   let allDataMQ2 = JSON.parse(localStorage.getItem('mq2Data')) || [];
 
-  const chartMQ2 = Highcharts.chart('mq2-container', {
+  const chartMQ2 = Highcharts.chart('mq4Chart', {
     chart: {
       type: 'spline',
       zoomType: 'x'
