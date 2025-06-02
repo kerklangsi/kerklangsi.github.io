@@ -88,46 +88,37 @@ canvas {
   }
 }
 
-@media (min-width: 1000px) and (max-width: 1599px) {
+@media (min-width: 650px) and (max-width: 1599px) {
   #container2 {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (min-width: 650px) and (max-width: 999px) {
-  #container2 {
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-  }
-}
-
 @media (max-width: 649px) {
   #container2 {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Base styles */
+/* CHART - #container3 */
 #container3 {
   display: grid;
   gap: 16px;
   padding: 10px;
 }
 
-/* (1) ≥1000px: Fixed 2 columns */
 @media (min-width: 1000px) {
   #container3 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* (2) 650px–999px: Also 2 columns, stretch to 100% */
 @media (min-width: 650px) and (max-width: 999px) {
   #container3 {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
   }
 }
 
-/* (3) <650px: Stacked 1 column */
 @media (max-width: 649px) {
   #container3 {
     grid-template-columns: 1fr;
