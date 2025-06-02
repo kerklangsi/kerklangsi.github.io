@@ -69,7 +69,7 @@ function updateMQ2Chart() {
     points.push([now, 0]);
   }
 
- const chartOptions = {
+ Highcharts.chart('mq2Chart', {
     chart: { type: 'spline' },
     title: { text: 'MQ2 PPM Sensor Data' },
     xAxis: {
@@ -100,14 +100,7 @@ function updateMQ2Chart() {
       data: points,
       color: '#28a745'
     }]
-  };
-
-  if (!window.mq2Chart) {
-    window.mq2Chart = Highcharts.chart('mq2Chart', chartOptions);
-  } else if (window.mq2Chart?.series?.[0]) {
-    window.mq2Chart.series[0].setData(points, true);
-    window.mq2Chart.xAxis[0].setExtremes(fromTime, now);
-  }
+  });
 }
 
 document.getElementById('timeRangeMQ2').addEventListener('change', (e) => {
