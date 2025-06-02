@@ -123,7 +123,7 @@ canvas {
 /* (2) 650px–999px: Also 2 columns, stretch to 100% */
 @media (min-width: 650px) and (max-width: 999px) {
   #container3 {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }
 
