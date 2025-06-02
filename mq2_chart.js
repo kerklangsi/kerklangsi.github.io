@@ -95,12 +95,12 @@ function updateMQ2Chart() {
       borderWidth: 1,
       backgroundColor: '#FFFFFF'
     },
-    series: {
+    series: [{
       name: 'MQ2 PPM',
       data: points,
       color: '#28a745'
-    }
-  }];
+    }]
+  };
 
   if (!window.mq2Chart) {
     window.mq2Chart = Highcharts.chart('mq2Chart', chartOptions);
