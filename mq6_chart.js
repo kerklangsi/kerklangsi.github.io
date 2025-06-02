@@ -100,4 +100,4 @@ document.getElementById('resetChartMQ6').addEventListener('click', () => {
 setInterval(() => {
   allDataMQ6 = JSON.parse(localStorage.getItem('mq6Data')) || [];
   updateMQ6Chart();
-}, 1000); // update every 1 seconds
+}, 5000); // update every 1 seconds
