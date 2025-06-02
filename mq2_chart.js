@@ -60,7 +60,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  document.getElementById('time-range-mq2').addEventListener('change', e => {
+  document.getElementById('timeRangeMQ2').addEventListener('change', e => {
     timeRangeMQ2 = e.target.value;
     updateMQ2Chart();
   });
