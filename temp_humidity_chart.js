@@ -42,7 +42,7 @@ function aggregateTempHumi(data, interval) {
 }
 
 function updateTempHumiChart() {
-  const now = Date.now();
+  const now = allDataTempHumi.at(-1)?.time || Date.now();
   const duration = timeRanges[timeRangeTempHumi];
   const interval = intervalMap[timeRangeTempHumi];
   const fromTime = now - duration;
